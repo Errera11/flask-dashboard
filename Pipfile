@@ -18,6 +18,8 @@ flask-sqlalchemy = "*"
 flask-themes = "*"
 flask-uploads = "*"
 flask-wtf = "*"
+python-dotenv = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

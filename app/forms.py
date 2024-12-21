@@ -11,3 +11,9 @@ class ExampleForm(FlaskForm):
 class LoginForm(FlaskForm):
 	user = TextField(u'Usuário', validators = [Required()])
 	password = PasswordField(u'Senha', validators = [Required()])
+
+
+class SaleForm(FlaskForm):
+	title = TextField(u'Create sale')
+	total_amount = TextField(u'Sales amount')
+	date = DateTimeField(u'Date', format='%d/%m/%Y', validators = [Required()])

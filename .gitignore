@@ -8,6 +8,7 @@ pycache
 
 #virtualenv
 env
+.env
 
 # Packages
 *.egg

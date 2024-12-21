@@ -1,20 +1,43 @@
 {% extends "base.html" %}
 
-{%block title%}Index!{%endblock%}
+{%block title%}Sales!{%endblock%}
 
 {%block main_content%}
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</head>
 
-	<h1>Index</h1>
-	<div class="row">
-		<div class="col-md-4">
-			<img src="http://placehold.it/360x200" class="img-polaroid">
-		</div>
-		<div class="col-md-4">
-			<img src="http://placehold.it/360x200" class="img-polaroid">
-		</div>
-		<div class="col-md-4">
-			<img src="http://placehold.it/360x200" class="img-polaroid">
-		</div>
+	<h1>Sales chart</h1>
+	<div>
+		<div style="height: 50vh; width: 50%;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        const labels = {{ labels | tojson}};
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Sales',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: {{ data | tojson}},
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: { maintainAspectRatio: false }
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+
+    </script>
 	</div>
 
 {%endblock%}

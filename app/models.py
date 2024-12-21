@@ -1,5 +1,11 @@
 from app import db
 
+class Sales(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	total_amount = db.Column(db.Integer)
+	date = db.Column(db.DateTime)
+
+
 class ModelExample(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(250))

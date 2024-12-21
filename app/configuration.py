@@ -1,3 +1,5 @@
+import os
+
 
 class Config(object):
 	"""
@@ -5,7 +7,7 @@ class Config(object):
 	"""
 	DEBUG = False
 	TESTING = False
-	SQLALCHEMY_DATABASE_URI = 'sqlite:///application.db'
+	# SQLALCHEMY_DATABASE_URI = 'sqlite:///application.db'
 	BOOTSTRAP_FONTAWESOME = True
 	SECRET_KEY = "MINHACHAVESECRETA"
 	CSRF_ENABLED = True
@@ -16,7 +18,7 @@ class Config(object):
 	#RECAPTCHA_PRIVATE_KEY = "6LffFNwSAAAAAO7UURCGI7qQ811SOSZlgU69rvv7"
 
 class ProductionConfig(Config):
-	SQLALCHEMY_DATABASE_URI = 'mysql://user@localhost/foo'
+	SQLALCHEMY_DATABASE_URI = f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@localhost/{os.getenv("DB_NAME")}'
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class DevelopmentConfig(Config):

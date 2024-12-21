@@ -1,38 +1,48 @@
 from flask import url_for, redirect, render_template, flash, g, session
 from flask_login import login_user, logout_user, current_user, login_required
-from app import app, lm
-from app.forms import ExampleForm, LoginForm
-from app.models import User
+from app import app, lm, db
+from app.forms import ExampleForm, LoginForm, SaleForm
+from app.models import User, Sales
 
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+    sales = Sales.query.all()
 
+    # Define Plot Data
+    labels = [sale.date for sale in sales]
+    data = [sale.total_amount for sale in sales]
 
-@app.route('/list/')
-def posts():
-	return render_template('list.html')
+    # Return the components to the HTML template
+    return render_template(
+        template_name_or_list='index.html',
+        data=data,
+        labels=labels,
+    )
 
 
 @app.route('/new/')
-@login_required
 def new():
-	form = ExampleForm()
+	form = SaleForm()
 	return render_template('new.html', form=form)
 
 
 @app.route('/save/', methods = ['GET','POST'])
-@login_required
 def save():
-	form = ExampleForm()
-	if form.validate_on_submit():
-		print("salvando os dados:")
-		print(form.title.data)
-		print(form.content.data)
-		print(form.date.data)
-		flash('Dados salvos!')
-	return render_template('new.html', form=form)
+    form = SaleForm()
+
+    if form.validate_on_submit():
+        sales = form.total_amount.data
+        date = form.date.data
+        new_sale = Sales(date=date, total_amount=sales)
+
+        db.session.add(new_sale)
+        db.session.commit()
+
+        form.total_amount.data = ""
+        form.date.data = ""
+        flash('Sale created successfully!', 'success')
+    return render_template('new.html', form=form)
 
 @app.route('/view/<id>/')
 def view(id):
